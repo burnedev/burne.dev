@@ -1,20 +1,26 @@
+body {
+    margin-left: 25%;
+}
+
 nav>ul {
     display: flex;
+    /* justify-content: space-between; */
     list-style: none;
+    border:1px solid grey;
+    width: 50%;
 }
 
 nav>ul>li{
-    border: solid 1px black;
-    margin: 0.5em;
-    padding: 0.5em;
-    background-color: rgb(4, 207, 243);
+    padding: 0.3em;
+    border-right: 1px dotted purple;
 }
 
 nav a {
-    color: black;
+    color: #0066cc;
     text-decoration: none;
 }
 
 nav a:hover {
     text-decoration: underline;
+    background-color: lightgrey;
 }

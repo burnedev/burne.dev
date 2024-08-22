@@ -33,6 +33,6 @@ nav a:hover {
     background-color: lightgrey;
 }
 
-ul.introducing li {
+ul.introducing {
     list-style-type: self-introduce;
 }

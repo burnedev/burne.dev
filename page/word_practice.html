@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日本語単語練習</title>
+    <link rel="stylesheet" href="../css/word_practice.css">
+</head>
+<body>
+    <div id="setup" class="container">
+        <h2>选择学习课程</h2>
+        <div class="setup-form">
+            <label>选择课程：</label>
+            <select id="lessonSelect"></select>
+            <button onclick="startLearning()">开始学习</button>
+        </div>
+    </div>
+
+    <div id="practice" class="container" style="display: none;">
+        <div class="word-card">
+            <div class="word-japanese"></div>
+            <div class="options"></div>
+        </div>
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div>
+    </div>
+
+    <script src="../js/word_data.js"></script>
+    <script src="../js/word_practice.js"></script>
+</body>
+</html> 

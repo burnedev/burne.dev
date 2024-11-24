@@ -54,9 +54,21 @@ function showLessonSelect() {
     container.innerHTML = `
         <select id="lessonSelect">
             <option value="">请选择课程</option>
-            <option value="1">第一课</option>
-            <option value="2">第二课</option>
-            <option value="3">第三课</option>
+            <option value="1">第1课</option>
+            <option value="2">第2课</option>
+            <option value="3">第3课</option>
+            <option value="4">第4课</option>
+            <option value="5">第5课</option>
+            <option value="6">第6课</option>
+            <option value="7">第7课</option>
+            <option value="8">第8课</option>
+            <option value="9">第9课</option>
+            <option value="10">第10课</option>
+            <option value="11">第11课</option>
+            <option value="12">第12课</option>
+            <option value="13">第13课</option>
+            <option value="14">第14课</option>
+            <option value="15">第15课</option>
         </select>
         <button onclick="startLearning()">开始学习</button>
     `;

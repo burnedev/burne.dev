@@ -139,8 +139,11 @@ function showNextWord() {
     // 获取容器
     const practiceContainer = document.getElementById('practice');
     
-    // 重置容器内容
+    // 重置容器内容，添加进度条
     practiceContainer.innerHTML = `
+        <div class="progress-container">
+            <div class="progress"></div>
+        </div>
         <div class="word-card">
             <div class="question-hint"></div>
             <div class="word-japanese"></div>
@@ -548,6 +551,22 @@ style.textContent = `
         padding: 5px;
         background-color: #f5f5f5;
         border-radius: 4px;
+    }
+
+    .progress-container {
+        width: 100%;
+        height: 10px;
+        background-color: #f0f0f0;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        overflow: hidden;
+    }
+
+    .progress {
+        width: 0;
+        height: 100%;
+        background-color: #4CAF50;
+        transition: width 0.3s ease;
     }
 `;
 document.head.appendChild(style);

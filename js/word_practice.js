@@ -18,6 +18,7 @@ let currentWord = null;
 let currentQuestionType = QUESTION_TYPES.WORD_TO_MEANING;
 let wordProgress = {};  // 记录每个单词在不同题型下的答题情况
 let password = ''; // 存储密码
+let baseUrl = 'https://jl.charlesyin20218621.workers.dev/words'
 
 // 初始化
 document.addEventListener('DOMContentLoaded', () => {
@@ -46,32 +47,114 @@ function verifyPassword() {
     }
     
     // 显示课程选择界面
-    showLessonSelect();
+    reshowSelectorPage();
+    showLevelSelect(password);
+    showLessonSelect(password);
 }
 
-function showLessonSelect() {
+
+function reshowSelectorPage() {
     const container = document.getElementById('setup');
     container.innerHTML = `
-        <select id="lessonSelect">
-            <option value="">请选择课程</option>
-            <option value="1">第1课</option>
-            <option value="2">第2课</option>
-            <option value="3">第3课</option>
-            <option value="4">第4课</option>
-            <option value="5">第5课</option>
-            <option value="6">第6课</option>
-            <option value="7">第7课</option>
-            <option value="8">第8课</option>
-            <option value="9">第9课</option>
-            <option value="10">第10课</option>
-            <option value="11">第11课</option>
-            <option value="12">第12课</option>
-            <option value="13">第13课</option>
-            <option value="14">第14课</option>
-            <option value="15">第15课</option>
-        </select>
-        <button onclick="startLearning()">开始学习</button>
+        <h2>选择学习等级和课程</h2>
+        <div class="setup-form">
+            <label>选择等级:</label>
+            <select id="levelSelect"></select>
+            <label>选择课程：</label>
+            <select id="lessonSelect"></select>
+            <button onclick="startLearning()">开始学习</button>
+        </div>
     `;
+}
+
+
+async function showLevelSelect(password) {
+    const levelSelector = document.getElementById('levelSelect');
+    console.log(levelSelector);
+
+    levelSelector.addEventListener('change', function() {
+        showLessonSelect(password);
+    });
+
+    try {
+        const response = await fetch(
+            baseUrl + `/level?p=${password}`,
+            {
+                method: 'post'
+            }
+        );
+
+        const data = await response.json();
+
+        if (data.error) {
+            alert(data.error);
+            // 如果密码错误，返回密码输入界面
+            if (data.error === 'password is incorrect!') {
+                showPasswordInput();
+            }
+            return;
+        }
+
+        levelMap = {
+            1: '初级',
+            2: '初中级',
+            3: '中级'
+        };
+
+        let levelContent = '<option value="">请选择课程</option>';
+
+        for (let item of data.datas) {
+            levelContent = levelContent + `\n<option value="${item.level}">${levelMap[item.level]}</option>`
+        };
+
+        levelSelector.innerHTML = levelContent;
+    } catch (error) {
+        console.error('获取数据失败:', error);
+        alert('获取数据失败，请检查网络连接');
+    };
+}
+
+async function showLessonSelect(password) {
+    const lessonSelector = document.getElementById('lessonSelect');
+    console.log(lessonSelector);
+
+    const levelSelector = document.getElementById('levelSelect');
+    const level = Number(levelSelector.value);
+
+    if (level == 0) {
+        lessonSelector.innerHTML = '<option value="">请选择课程</option>';
+    } else {
+        try {
+            const response = await fetch(
+                baseUrl + `/lesson?p=${password}&level=${level}`,
+                {
+                    method: 'post'
+                }
+            );
+
+            const data = await response.json();
+
+            if (data.error) {
+                alert(data.error);
+                // 如果密码错误，返回密码输入界面
+                if (data.error === 'password is incorrect!') {
+                    showPasswordInput();
+                }
+                return;
+            }
+
+            let lessonContent = '<option value="">请选择课程</option>';
+
+            for (let item of data.datas) {
+                lessonContent = lessonContent + `\n<option value="${item.lesson}">第${item.lesson}课</option>`
+            };
+
+            lessonSelector.innerHTML = lessonContent;
+        } catch (error) {
+            console.error('获取数据失败:', error);
+            alert('获取数据失败，请检查网络连接');
+        };
+    };
 }
 
 async function startLearning() {
@@ -82,10 +165,18 @@ async function startLearning() {
         alert('请选择课程');
         return;
     }
+
+    const levelSelect = document.getElementById('levelSelect');
+    const selectedLevel = levelSelect.value;
     
     try {
         // 从接口获取数据
-        const response = await fetch(`https://jl.charlesyin20218621.workers.dev/?lesson=${selectedLesson}&p=${password}`);
+        const response = await fetch(
+            `${baseUrl}/list?level=${selectedLevel}&lesson=${selectedLesson}&p=${password}`,
+            {
+                method: 'post'
+            }
+        );
         const data = await response.json();
         
         if (data.error) {

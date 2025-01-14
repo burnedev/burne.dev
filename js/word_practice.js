@@ -62,6 +62,10 @@ function reshowSelectorPage() {
             <select id="levelSelect"></select>
             <label>选择课程：</label>
             <select id="lessonSelect"></select>
+            <div id="isMainContainer">
+                <label>是否包含附加章节单词</label>
+                <input type="checkbox" id="isMain"/>
+            </div>
             <button onclick="startLearning()">开始学习</button>
         </div>
     `;
@@ -160,6 +164,12 @@ async function showLessonSelect(password) {
 async function startLearning() {
     const lessonSelect = document.getElementById('lessonSelect');
     const selectedLesson = lessonSelect.value;
+    const mainSelect = document.getElementById('isMain');
+    let isMain = 0;
+
+    if (mainSelect.checked) {
+        isMain = 1;
+    }
     
     if (!selectedLesson) {
         alert('请选择课程');
@@ -172,7 +182,7 @@ async function startLearning() {
     try {
         // 从接口获取数据
         const response = await fetch(
-            `${baseUrl}/list?level=${selectedLevel}&lesson=${selectedLesson}&p=${password}`,
+            `${baseUrl}/list?level=${selectedLevel}&lesson=${selectedLesson}&p=${password}&is_main=${isMain}`,
             {
                 method: 'post'
             }

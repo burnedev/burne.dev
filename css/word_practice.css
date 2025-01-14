@@ -38,6 +38,10 @@
     border-color: #4CAF50;
 }
 
+#isMainContainer{
+    display: flex;
+}
+
 .word-card {
     background: white;
     padding: 30px;

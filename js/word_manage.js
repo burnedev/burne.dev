@@ -142,23 +142,26 @@ async function showWordManageForm() {
 function showWordDetail(data) {
     const container = document.getElementById('setup');
 
+    const sourceList = getSourceList();
+    const lessonList = getLessonList();
+
     container.innerHTML = `
         <h3>${data.word}</h3>
         <div class="word-detail-form">
             <label class="word-detail-lab">单词</label>
-            <input id="word-in">
+            <input id="word-in" value=`${data.word}` />
             <label class="word-detail-lab">读音</label>
-            <input id="reading-in" />
+            <input id="reading-in" value=`${data.pronunciation}`/>
             <label class="word-detail-lab">单词来源</label>
             <select id="source-in"></select>
             <label class="word-detail-lab">第几课</label>
-            <input id="lesson-in" />
+            <input id="lesson-in" value=`${data.lesson}` />
             <label class="word-detail-lab">中文意思</label>
-            <input id="zh-meaning-in" />
+            <input id="zh-meaning-in" value=`${data.zh_meaning}` />
             <label class="word-detail-lab">英文意思</label>
-            <input id="en-meaning-in" />
+            <input id="en-meaning-in" value=`${data.en_meaning}` />
             <label class="word-detail-lab">等级</label>
-            <input id="level-in" />
+            <input id="level-in" value=`${data.level}` />
             <div id="is-main-container">
                 <label class="word-detail-lab">是否是附加课程</label>
                 <input type="checkbox" id="is-main" />

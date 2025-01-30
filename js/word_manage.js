@@ -133,7 +133,8 @@ async function showWordManageForm() {
     const addButton = document.getElementById('add-but');
 
     searchButton.addEventListener('click', function() {
-        
+        data = wordSearch();
+        showWordDetail(data);
     });
 }
 
@@ -162,8 +163,20 @@ function showWordDetail(data) {
                 <label class="word-detail-lab">是否是附加课程</label>
                 <input type="checkbox" id="is-main" />
             </div>
+            <button id="save-word">保存</button>
+            <button id="return-search-page">返回搜索页</button>
         </div>
     `;
+    
+    const saveButton = document.getElementById("save-word");
+    const returnButton = document.getElementById("return-search-page");
+    
+    saveButton.addEventListener("click", () =>{
+        if (data.id) {
+            wordUpdate();
+        } else {
+            wordInsert();
+    }
 }
 
 

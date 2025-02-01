@@ -163,11 +163,14 @@ function showWordDetail(datas) {
                     <label class="word-detail-lab">是否是附加课程</label>
                     <input type="checkbox" id="is-main" />
                 </div>
-                <button id="save-word">保存</button>
-                <button id="return-search-page">返回搜索页</button>
             </div>
         `;
     }
+
+    wordDetailContent = wordDetailContent + `
+        <button id="save-word">保存</button>
+        <button id="return-search-page">返回搜索页</button>
+    `;
 
     container.innerHTML = wordDetailContent;
 

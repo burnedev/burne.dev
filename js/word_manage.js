@@ -138,7 +138,7 @@ async function showWordManageForm(ses) {
 
 
 function showWordDetail(datas) {
-    const container = document.getElementById('setup');
+    const container = document.getElementById('manage-setup');
 
     let wordDetailContent = '';
 

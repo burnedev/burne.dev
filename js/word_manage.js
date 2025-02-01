@@ -220,9 +220,17 @@ async function wordSearch() {
     const searchUrl = `https://jl.charlesyin20218621.workers.dev/words/search?ses=${ses}`;
 
     try {
+        const wordInputor = document.getElementById('word-input');
+        const wordInput = wordInputor.value;
+        const resSelector = document.getElementById('res-select');
+        const resInput = Number(resSelector.value);
         const response = await fetch(
             searchUrl, {
-                method: 'post'
+                method: 'post',
+                body: JSON.stringify({
+                    sourceId: resInput,
+                    word: wordInput
+                })
             }
         );
 

@@ -146,7 +146,7 @@ function showWordDetail(datas) {
         wordDetailContent = wordDetailContent + `
             <div class="word-detail-form">
                 <label class="word-detail-lab">单词</label>
-                <input id="word-in" value="${data.word} />
+                <input id="word-in" value="${data.word}" />
                 <label class="word-detail-lab">读音</label>
                 <input id="reading-in" value="${data.pronunciation}" />
                 <label class="word-detail-lab">单词来源</label>

@@ -131,7 +131,7 @@ async function showWordManageForm(ses) {
     const searchButton = document.getElementById('search-but');
 
     searchButton.addEventListener('click', async function() {
-        data =  await wordSearch();
+        const data =  await wordSearch();
         showWordDetail(data);
     });
 }

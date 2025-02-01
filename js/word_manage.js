@@ -24,14 +24,13 @@ function showLoginForm() {
     `;
 
     const loginButton = document.getElementById('login-but');
-    loginButton.addEventListener('click', () => {
-        login().then(ses => {
+    loginButton.addEventListener('click', async () => {
+        const ses = await login();
+        if (ses) {
             showWordManageForm(ses);
-            console.log('ses:', ses);
-            setCookie('ses', ses);
-        }).catch(error => {
-            console.error('got error:', error)
-        });
+        } else {
+            showLoginForm();
+        }
     });
 }
 
@@ -41,46 +40,51 @@ async function login() {
 
     const username = usernameInput.value.trim();
     const password = passwordInput.value.trim();
-
-    // for test
     
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            resolve('naiei323i');
-        }, 1000);
-    });
-
     if (!username || !password) {
         alert('用户名和密码不能为空.');
         return;
     }
 
-    const loginUrl = '';
+    const loginUrl = 'https://jl.charlesyin20218621.workers.dev/user/login';
 
     try {
         const response = await fetch(
             loginUrl, {
-                method: 'post'
+                method: 'post',
+                body: JSON.stringify({}),
+                headers: {
+                    Authorization: 'Basic ' + btoa(`${username}:${password}`)
+                }
             }
         );
+        
+        const result = await response.json();
 
-        const resContent = await response.json();
-
-        if (resContent.error) {
-            alert(resContent.error);
+        if (result.error) {
+            console.error('账号登陆失败:', result.error);
+            alert('账号密码有误，请重试');
             return;
         }
 
-        setCookie('ses', resContent.ses);
-        return resContent.ses;
+        console.log('response:', result);
+        const ses = result.ses;
+
+        console.log('ses:', ses);
+        setCookie('ses', ses);
+
+        console.log('cookie:', getCookie('ses'));
+
+        return ses;
     } catch (error) {
         console.error('登陆失败:', error);
         alert('登陆失败，请检查用户名和密码.');
+        return;
     }
 }
 
 
-async function showWordManageForm() {
+async function showWordManageForm(ses) {
     const container = document.getElementById('manage-setup');
 
     container.innerHTML = `
@@ -93,16 +97,11 @@ async function showWordManageForm() {
         </div>
     `;
 
-    const ses = getCookie('ses');
-
     try {
-        const sourceGetUrl = '';
+        const sourceGetUrl = `https://jl.charlesyin20218621.workers.dev/words/resource?ses=${ses}`;
         const response = await fetch(
             sourceGetUrl, {
-                method: 'post',
-                body: JSON.stringify({
-                    ses: ses
-                })
+                method: 'post'
             }
         );
 
@@ -130,82 +129,116 @@ async function showWordManageForm() {
     }
 
     const searchButton = document.getElementById('search-but');
-    const addButton = document.getElementById('add-but');
 
-    searchButton.addEventListener('click', function() {
-        data = wordSearch();
+    searchButton.addEventListener('click', async function() {
+        data =  await wordSearch();
         showWordDetail(data);
     });
 }
 
 
-function showWordDetail(data) {
+function showWordDetail(datas) {
     const container = document.getElementById('setup');
+
+    let wordDetailContent = '';
+
+    for (let data of datas) {
+        wordDetailContent = wordDetailContent + `
+            <div class="word-detail-form">
+                <label class="word-detail-lab">单词</label>
+                <input id="word-in" value="${data.word} />
+                <label class="word-detail-lab">读音</label>
+                <input id="reading-in" value="${data.pronunciation}" />
+                <label class="word-detail-lab">单词来源</label>
+                <select id="source-in"></select>
+                <label class="word-detail-lab">课时</label>
+                <select id="lesson-in"></select>
+                <label class="word-detail-lab">中文意思</label>
+                <input id="zh-meaning-in" value="${data.zh_meaning}" />
+                <label class="word-detail-lab">英文意思</label>
+                <input id="en-meaning-in" value="${data.en_meaning}" />
+                <label class="word-detail-lab">等级</label>
+                <select id="level-in"></select>
+                <div id="is-main-container">
+                    <label class="word-detail-lab">是否是附加课程</label>
+                    <input type="checkbox" id="is-main" />
+                </div>
+                <button id="save-word">保存</button>
+                <button id="return-search-page">返回搜索页</button>
+            </div>
+        `;
+    }
+
+    let sourceContent = '<option value="">请选择资源</option>';
+    let lessonContent = '<option value="">请选择课时</option>';
+    let levelContent = '<option value="">请选择级别</option>';
 
     const sourceList = getSourceList();
     const lessonList = getLessonList();
+    const levelList = getLevelList();
 
-    container.innerHTML = `
-        <h3>${data.word}</h3>
-        <div class="word-detail-form">
-            <label class="word-detail-lab">单词</label>
-            <input id="word-in" value=`${data.word}` />
-            <label class="word-detail-lab">读音</label>
-            <input id="reading-in" value=`${data.pronunciation}`/>
-            <label class="word-detail-lab">单词来源</label>
-            <select id="source-in"></select>
-            <label class="word-detail-lab">第几课</label>
-            <input id="lesson-in" value=`${data.lesson}` />
-            <label class="word-detail-lab">中文意思</label>
-            <input id="zh-meaning-in" value=`${data.zh_meaning}` />
-            <label class="word-detail-lab">英文意思</label>
-            <input id="en-meaning-in" value=`${data.en_meaning}` />
-            <label class="word-detail-lab">等级</label>
-            <input id="level-in" value=`${data.level}` />
-            <div id="is-main-container">
-                <label class="word-detail-lab">是否是附加课程</label>
-                <input type="checkbox" id="is-main" />
-            </div>
-            <button id="save-word">保存</button>
-            <button id="return-search-page">返回搜索页</button>
-        </div>
-    `;
+    // for (let item of sourceList.datas) {
+    //     sourceContent = sourceContent + `\n<option value="${item.id}">${item.name}</option>`;
+    // }
+
+    // for (let item of lessonList.datas) {
+    //     lessonContent = lessonContent + `\n<option value="${item.lesson}">第${item.lesson}</option>`;
+    // }
+
+    const levelMap = {
+        1: '初级',
+        2: '初中级',
+        3: '中级'
+    }
+
+    // for (let item of levelList.datas) {
+    //     levelContent = LevelContent + `\n<option value="${item.level}">${levelMap[item.level]}</option>`;
+    // }
+   
     
     const saveButton = document.getElementById("save-word");
     const returnButton = document.getElementById("return-search-page");
     
     saveButton.addEventListener("click", () =>{
-        if (data.id) {
-            wordUpdate();
-        } else {
-            wordInsert();
-    }
+            if (data.id) {
+                wordUpdate();
+            } else {
+                wordInsert();
+            }
+        }
+    );
+
+    returnButton.addEventListener("click", () => {
+        showWordManageForm();
+    });
 }
 
 
 async function wordSearch() {
-    const searchUrl = '';
+    const ses = getCookie('ses');
+    console.log('ses:', ses);
+    const searchUrl = `https://jl.charlesyin20218621.workers.dev/words/search?ses=${ses}`;
 
     try {
-        return new Promise((resolve, reject) => {
-            const response = fetch(
-                searchUrl, {
-                    method: 'post'
-                }
-            );
-
-            const searchResult = response.json();
-
-            if (searchResult.error) {
-                alert(searchResult.error);
-                reject(searchResult.error);
+        const response = await fetch(
+            searchUrl, {
+                method: 'post'
             }
+        );
 
-            resolve(searchResult.data);
-        });
+        const searchResult = await response.json();
+
+        if (searchResult.error) {
+            console.log('查找单词接口调用失败:', searchResult.error);
+            alert(searchResult.error);
+            return;
+        }
+
+        return searchResult.datas;
     } catch (error) {
         console.error('查找单词失败:', error);
         alert('查找单词失败，请重试.');
+        return;
     }
 }
 

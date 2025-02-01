@@ -169,6 +169,8 @@ function showWordDetail(datas) {
         `;
     }
 
+    container.innerHTML = wordDetailContent;
+
     let sourceContent = '<option value="">请选择资源</option>';
     let lessonContent = '<option value="">请选择课时</option>';
     let levelContent = '<option value="">请选择级别</option>';

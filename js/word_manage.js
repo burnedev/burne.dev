@@ -173,9 +173,9 @@ function showWordDetail(datas) {
     let lessonContent = '<option value="">请选择课时</option>';
     let levelContent = '<option value="">请选择级别</option>';
 
-    const sourceList = getSourceList();
-    const lessonList = getLessonList();
-    const levelList = getLevelList();
+    // const sourceList = getSourceList();
+    // const lessonList = getLessonList();
+    // const levelList = getLevelList();
 
     // for (let item of sourceList.datas) {
     //     sourceContent = sourceContent + `\n<option value="${item.id}">${item.name}</option>`;
@@ -196,21 +196,21 @@ function showWordDetail(datas) {
     // }
    
     
-    const saveButton = document.getElementById("save-word");
-    const returnButton = document.getElementById("return-search-page");
+    // const saveButton = document.getElementById("save-word");
+    // const returnButton = document.getElementById("return-search-page");
     
-    saveButton.addEventListener("click", () =>{
-            if (data.id) {
-                wordUpdate();
-            } else {
-                wordInsert();
-            }
-        }
-    );
+    // saveButton.addEventListener("click", () =>{
+    //         if (data.id) {
+    //             wordUpdate();
+    //         } else {
+    //             wordInsert();
+    //         }
+    //     }
+    // );
 
-    returnButton.addEventListener("click", () => {
-        showWordManageForm();
-    });
+    // returnButton.addEventListener("click", () => {
+    //     showWordManageForm();
+    // });
 }
 
 

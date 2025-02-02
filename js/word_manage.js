@@ -175,6 +175,7 @@ async function showWordDetail(datas) {
         `;
 
         const sinSelector = document.getElementById(`source-in-${data.id}`);
+        console.log(`source-in-${data.id}`);
         sinSelector.innerHTML = sourceContent;
     }
 

@@ -182,7 +182,6 @@ function showWordDetail(datas) {
                     <input type="checkbox" id="is-main" />
                 </div>
             </div>
-            <hr class="word-hr" />
         `;
     }
 

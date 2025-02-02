@@ -162,7 +162,7 @@ async function showWordDetail(datas) {
                 <div class="form-group">
                     <label class="word-detail-lab">课时:</label>
                     <select id="lesson-in-${data.id}"></select>
-
+                </div>
                 <div class="form-group">
                     <label class="word-detail-lab">等级:</label>
                     <select id="level-in-${data.id}"></select>
@@ -174,19 +174,17 @@ async function showWordDetail(datas) {
             </div>
         `;
 
+        container.innerHTML += sourceContent;
+
         const sinSelector = document.getElementById(`source-in-${data.id}`);
-        console.log(`source-in-${data.id}`);
-        sinSelector.innerHTML = sourceContent;
     }
 
-    wordDetailContent = wordDetailContent + `
+    container.innerHTML += wordDetailContent + `
         <div class="button-container">
         <button id="save-word">保存</button>
         <button id="return-search-page">返回搜索页</button>
         </div>
     `;
-
-    container.innerHTML = wordDetailContent;
 
     let lessonContent = '<option value="">请选择课时</option>';
     let levelContent = '<option value="">请选择级别</option>';

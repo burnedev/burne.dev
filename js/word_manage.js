@@ -101,36 +101,15 @@ async function showWordManageForm(ses) {
         </div>
     `;
 
-    try {
-        const sourceGetUrl = `https://jl.charlesyin20218621.workers.dev/words/resource?ses=${ses}`;
-        const response = await fetch(
-            sourceGetUrl, {
-                method: 'post'
-            }
-        );
+    const sourceDatas = await getSourceList();
 
-        const sourceData = await response.json();
-
-        if (sourceData.error) {
-            alert(data.error);
-
-            if (data.error === 'ses is incorrect!') {
-                showLoginForm();
-            }
-            return;
-        }
-
-        let sourceContent = '<option value="">请选择单词资源</option>';
-        for (let item of sourceData.datas) {
-            sourceContent = sourceContent + `\n<option value="${item.id}">${item.name}</option>`;
-        }
-
-        const sourceSelector = document.getElementById('res-select');
-        sourceSelector.innerHTML = sourceContent;
-    } catch (error) {
-        console.error('获取单词资源列表失败:', error);
-        alert('获取数据失败，请检查网络');
+    let sourceContent = '<option value="">请选择单词资源</option>';
+    for (let item of sourceDatas) {
+        sourceContent = sourceContent + `\n<option value="${item.id}">${item.name}</option>`;
     }
+
+    const sourceSelector = document.getElementById('res-select');
+    sourceSelector.innerHTML = sourceContent;
 
     const searchButton = document.getElementById('search-but');
 
@@ -157,13 +136,6 @@ function showWordDetail(datas) {
                     <label class="word-detail-lab">读音:</label>
                     <input id="reading-in" value="${data.pronunciation}" />
                 </div>
-                <div class="form-group">
-                    <label class="word-detail-lab">单词来源:</label>
-                    <select id="source-in"></select>
-                </div>
-                <div class="form-group">
-                    <label class="word-detail-lab">课时:</label>
-                    <select id="lesson-in"></select>
                 </div>
                 <div class="form-group">
                     <label class="word-detail-lab">中文意思:</label>
@@ -173,6 +145,14 @@ function showWordDetail(datas) {
                     <label class="word-detail-lab">英文意思:</label>
                     <input id="en-meaning-in" value="${data.en_meaning}" />
                 </div>
+                <div class="form-group">
+                    <label class="word-detail-lab">单词来源:</label>
+                    <select id="source-in"></select>
+                </div>
+                <div class="form-group">
+                    <label class="word-detail-lab">课时:</label>
+                    <select id="lesson-in"></select>
+
                 <div class="form-group">
                     <label class="word-detail-lab">等级:</label>
                     <select id="level-in"></select>
@@ -194,17 +174,22 @@ function showWordDetail(datas) {
 
     container.innerHTML = wordDetailContent;
 
-    let sourceContent = '<option value="">请选择资源</option>';
     let lessonContent = '<option value="">请选择课时</option>';
     let levelContent = '<option value="">请选择级别</option>';
 
-    // const sourceList = getSourceList();
+    getSourceList().then(
+        (sourceList) => {
+            let sourceContent = '<option value="">请选择资源</option>';
+            for (let item of sourceList.datas) {
+                sourceContent = sourceContent + `\n<option value="${item.id}">${item.name}</option>`;
+            }
+
+            const sourceSelector = document.getElementById('source-in');
+            sourceSelector.innerHTML = sourceContent;
+        }
+    );
     // const lessonList = getLessonList();
     // const levelList = getLevelList();
-
-    // for (let item of sourceList.datas) {
-    //     sourceContent = sourceContent + `\n<option value="${item.id}">${item.name}</option>`;
-    // }
 
     // for (let item of lessonList.datas) {
     //     lessonContent = lessonContent + `\n<option value="${item.lesson}">第${item.lesson}</option>`;
@@ -329,6 +314,41 @@ async function wordInsert() {
     }
 }
 
+
+async function getSourceList() {
+    const ses = getCookie('ses');
+    if (! ses) {
+        console.error('cookie ses is expired');
+        alert('login is expired, please re-login');
+        return showLoginForm();
+    }
+
+    try {
+        const sourceGetUrl = `https://jl.charlesyin20218621.workers.dev/words/resource?ses=${ses}`;
+        const response = await fetch(
+            sourceGetUrl, {
+                method: 'post'
+            }
+        );
+
+        const sourceData = await response.json();
+
+        if (sourceData.error) {
+            alert(data.error);
+            
+            if (data.error === 'ses is incorrect') {
+                showLoginForm();
+            }
+            return;
+        }
+
+        return sourceData.datas;
+    } catch (error) {
+        console.error('获取资源列表失败:', error);
+        alert('获取资源列表失败，请刷新页面');
+        return;
+    }
+}
 
 
 function setCookie(name, value, daysToExpire = 0.5, path = '/') {

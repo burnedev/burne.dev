@@ -140,7 +140,6 @@ async function showWordDetail(datas) {
                     <label class="word-detail-lab">读音:</label>
                     <input id="reading-in-${data.id}" value="${data.pronunciation}" />
                 </div>
-                </div>
                 <div class="form-group">
                     <label class="word-detail-lab">中文意思:</label>
                     <input id="zh-meaning-in-${data.id}" value="${data.zh_meaning}" />
@@ -174,12 +173,6 @@ async function showWordDetail(datas) {
                 </div>
             </div>
         `;
-
-        // const sinSelector = document.getElementById(`source-in-${data.id}`);
-        // sinSelector.innerHTML += "<option value=''>请选择单词来源</option>";
-        // for (let item of sourceList) {
-        //    sinSelector.innerHTML += `<option value="${item.id}">${item.name}</option>`;
-        // }
     }
 
     container.innerHTML += wordDetailContent + `

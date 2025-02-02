@@ -132,19 +132,19 @@ async function showWordDetail(datas) {
             <div class="word-detail-form">
                 <div class="form-group">
                     <label class="word-detail-lab">单词:</label>
-                    <input id="word-in-${data.id}" value="${data.word}" />
+                    <input id="word-in-${data.id}" value="${data.word || ''}" />
                 </div> 
                 <div class="form-group">
                     <label class="word-detail-lab">读音:</label>
-                    <input id="reading-in-${data.id}" value="${data.pronunciation}" />
+                    <input id="reading-in-${data.id}" value="${data.pronunciation || '' }" />
                 </div>
                 <div class="form-group">
                     <label class="word-detail-lab">中文意思:</label>
-                    <input id="zh-meaning-in-${data.id}" value="${data.zh_meaning}" />
+                    <input id="zh-meaning-in-${data.id}" value="${data.zh_meaning || ''}" />
                 </div>
                 <div class="form-group">
                     <label class="word-detail-lab">英文意思:</label>
-                    <input id="en-meaning-in-${data.id}" value="${data.en_meaning}" />
+                    <input id="en-meaning-in-${data.id}" value="${data.en_meaning || ''}" />
                 </div>
                 <div class="form-group">
                     <label class="word-detail-lab">单词来源:</label>
@@ -159,15 +159,15 @@ async function showWordDetail(datas) {
                 </div>
                 <div class="form-group">
                     <label class="word-detail-lab">课时:</label>
-                    <input id="lesson-in-${data.id}" value=${data.lesson} />
+                    <input id="lesson-in-${data.id}" value=${data.lesson || ''} />
                 </div>
                 <div class="form-group">
                     <label class="word-detail-lab">等级:</label>
-                    <input id="level-in-${data.id}" value=${data.level} />
+                    <input id="level-in-${data.id}" value=${data.level || ''} />
                 </div>
                 <div id="is-main-container">
                     <label class="word-detail-lab">是否是附加课程</label>
-                    <input type="checkbox" id="is-main-${data.id}" />
+                    <input type="checkbox" id="is-main-${data.id}" ${data.is_main ? 'checked' : ''} />
                 </div>
             </div>
         `;

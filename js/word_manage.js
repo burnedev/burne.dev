@@ -97,7 +97,7 @@ async function showWordManageForm(ses) {
             <label class="manage-lab">单词资源:</label>
             <select id="res-select"></select>
             </div>
-            <div class="form-group>
+            <div class="form-group">
             <label class="manage-lab">单词</label>
             <input id="word-input" />
             </div>

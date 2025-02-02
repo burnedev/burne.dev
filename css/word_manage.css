@@ -21,9 +21,11 @@
     margin-left: 5px;
 }
 
-.word-detail-form {
+.word-detail-form,
+.button-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-bottom: 15px;
+    padding: 3em;
 }

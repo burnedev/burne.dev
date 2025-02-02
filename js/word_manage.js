@@ -186,8 +186,10 @@ function showWordDetail(datas) {
     }
 
     wordDetailContent = wordDetailContent + `
+        <div class="button-container">
         <button id="save-word">保存</button>
         <button id="return-search-page">返回搜索页</button>
+        </div>
     `;
 
     container.innerHTML = wordDetailContent;

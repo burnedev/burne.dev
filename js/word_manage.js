@@ -124,8 +124,6 @@ async function showWordDetail(datas) {
     const container = document.getElementById('manage-setup');
 
     const sourceList = await getSourceList();
-    // const lessonList = getLessonList();
-    // const levelList = getLevelList();
 
     container.innerHTML = '';
 
@@ -161,11 +159,11 @@ async function showWordDetail(datas) {
                 </div>
                 <div class="form-group">
                     <label class="word-detail-lab">课时:</label>
-                    <select id="lesson-in-${data.id}"></select>
+                    <input id="lesson-in-${data.id}" value=${data.lesson} />
                 </div>
                 <div class="form-group">
                     <label class="word-detail-lab">等级:</label>
-                    <select id="level-in-${data.id}"></select>
+                    <input id="level-in-${data.id}" value=${data.level} />
                 </div>
                 <div id="is-main-container">
                     <label class="word-detail-lab">是否是附加课程</label>
@@ -186,21 +184,7 @@ async function showWordDetail(datas) {
     let levelContent = '<option value="">请选择级别</option>';
 
 
-    // for (let item of lessonList.datas) {
-    //     lessonContent = lessonContent + `\n<option value="${item.lesson}">第${item.lesson}</option>`;
-    // }
 
-    const levelMap = {
-        1: '初级',
-        2: '初中级',
-        3: '中级'
-    }
-
-    // for (let item of levelList.datas) {
-    //     levelContent = LevelContent + `\n<option value="${item.level}">${levelMap[item.level]}</option>`;
-    // }
-   
-    
     // const saveButton = document.getElementById("save-word");
     // const returnButton = document.getElementById("return-search-page");
     

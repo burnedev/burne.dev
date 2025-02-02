@@ -157,7 +157,7 @@ async function showWordDetail(datas) {
                 </div>
                 <div class="form-group">
                     <label class="word-detail-lab">单词来源:</label>
-                    <select id="source-in-${data.id}" value=${data.resource}>${sourceList.find(source => source.id === data.resource)}</select>
+                    <select id="source-in-${data.id}"><option value=${data.resource}>${sourceList.find(source => source.id === data.resource)}</option></select>
                 </div>
                 <div class="form-group">
                     <label class="word-detail-lab">课时:</label>
@@ -177,6 +177,10 @@ async function showWordDetail(datas) {
         container.innerHTML += sourceContent;
 
         const sinSelector = document.getElementById(`source-in-${data.id}`);
+        sinSelector.innerHTML += "<option value=''>请选择单词来源</option>";
+        for (let item of sourceList) {
+           sinSelector.innerHTML += `<option value=${item.id}>${item.name}</option>`;
+        }
     }
 
     container.innerHTML += wordDetailContent + `

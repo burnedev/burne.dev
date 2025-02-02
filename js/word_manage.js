@@ -127,6 +127,8 @@ async function showWordDetail(datas) {
     // const lessonList = getLessonList();
     // const levelList = getLevelList();
 
+    container.innerHTML = '';
+
     for (let data of datas) {
         container.innerHTML +=`
             <div class="word-detail-form">

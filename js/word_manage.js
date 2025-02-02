@@ -93,10 +93,14 @@ async function showWordManageForm(ses) {
 
     container.innerHTML = `
         <div class="word-manage-form">
+            <div class="form-group">
             <label class="manage-lab">单词资源:</label>
             <select id="res-select"></select>
+            </div>
+            <div class="form-group>
             <label class="manage-lab">单词</label>
             <input id="word-input" />
+            </div>
             <button id="search-but">查询</button>
         </div>
     `;

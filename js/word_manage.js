@@ -176,7 +176,7 @@ async function showWordDetail(datas) {
     }
 
     container.innerHTML += `
-        <div class="form-group">
+        <div class="button-container">
         <button id="save-word">保存</button>
         <button id="return-search-page">返回搜索页</button>
         </div>

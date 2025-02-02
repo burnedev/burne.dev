@@ -181,7 +181,7 @@ function showWordDetail(datas) {
         (sourceList) => {
             console.log(sourceList);
             let sourceContent = '<option value="">请选择资源</option>';
-            for (let item of sourceList.datas) {
+            for (let item of sourceList) {
                 sourceContent = sourceContent + `\n<option value="${item.id}">${item.name}</option>`;
             }
 

@@ -167,7 +167,7 @@ async function showWordDetail(datas) {
                 </div>
                 <div id="is-main-container">
                     <label class="word-detail-lab">是否是附加课程</label>
-                    <input type="checkbox" id="is-main-${data.id}" ${data.is_main ? 'checked' : ''} />
+                    <input type="checkbox" id="is-main-${data.id}" ${data.is_main === 0 ? 'checked' : ''} />
                 </div>
             </div>
         `;

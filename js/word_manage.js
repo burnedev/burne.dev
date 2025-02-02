@@ -176,11 +176,11 @@ async function showWordDetail(datas) {
 
         container.innerHTML += sourceContent;
 
-        const sinSelector = document.getElementById(`source-in-${data.id}`);
-        sinSelector.innerHTML += "<option value=''>请选择单词来源</option>";
-        for (let item of sourceList) {
-           sinSelector.innerHTML += `<option value="${item.id}">${item.name}</option>`;
-        }
+        // const sinSelector = document.getElementById(`source-in-${data.id}`);
+        // sinSelector.innerHTML += "<option value=''>请选择单词来源</option>";
+        // for (let item of sourceList) {
+        //    sinSelector.innerHTML += `<option value="${item.id}">${item.name}</option>`;
+        // }
     }
 
     container.innerHTML += wordDetailContent + `

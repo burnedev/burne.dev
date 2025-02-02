@@ -115,54 +115,67 @@ async function showWordManageForm(ses) {
 
     searchButton.addEventListener('click', async function() {
         const data =  await wordSearch();
-        showWordDetail(data);
+        await showWordDetail(data);
     });
 }
 
 
-function showWordDetail(datas) {
+async function showWordDetail(datas) {
     const container = document.getElementById('manage-setup');
 
     let wordDetailContent = '';
 
+    const sourceList = await getSourceList();
+    // const lessonList = getLessonList();
+    // const levelList = getLevelList();
+
     for (let data of datas) {
+        let sourceContent = `<option value="">请选择单词来源</option>`;
+
+        for (let item of sourceList) {
+            sourceContent = sourceContent + `<option value=${item.id}>${item.name}</option>`;
+        }
+
         wordDetailContent = wordDetailContent + `
             <div class="word-detail-form">
                 <div class="form-group">
                     <label class="word-detail-lab">单词:</label>
-                    <input id="word-in" value="${data.word}" />
+                    <input id="word-in-${data.id}" value="${data.word}" />
                 </div> 
                 <div class="form-group">
                     <label class="word-detail-lab">读音:</label>
-                    <input id="reading-in" value="${data.pronunciation}" />
+                    <input id="reading-in-${data.id}" value="${data.pronunciation}" />
                 </div>
                 </div>
                 <div class="form-group">
                     <label class="word-detail-lab">中文意思:</label>
-                    <input id="zh-meaning-in" value="${data.zh_meaning}" />
+                    <input id="zh-meaning-in-${data.id}" value="${data.zh_meaning}" />
                 </div>
                 <div class="form-group">
                     <label class="word-detail-lab">英文意思:</label>
-                    <input id="en-meaning-in" value="${data.en_meaning}" />
+                    <input id="en-meaning-in-${data.id}" value="${data.en_meaning}" />
                 </div>
                 <div class="form-group">
                     <label class="word-detail-lab">单词来源:</label>
-                    <select id="source-in"></select>
+                    <select id="source-in-${data.id}" value=${data.resource}>${sourceList.find(source => source.id === data.resource)}</select>
                 </div>
                 <div class="form-group">
                     <label class="word-detail-lab">课时:</label>
-                    <select id="lesson-in"></select>
+                    <select id="lesson-in-${data.id}"></select>
 
                 <div class="form-group">
                     <label class="word-detail-lab">等级:</label>
-                    <select id="level-in"></select>
+                    <select id="level-in-${data.id}"></select>
                 </div>
                 <div id="is-main-container">
                     <label class="word-detail-lab">是否是附加课程</label>
-                    <input type="checkbox" id="is-main" />
+                    <input type="checkbox" id="is-main-${data.id}" />
                 </div>
             </div>
         `;
+
+        const sinSelector = document.getElementById(`source-in-${data.id}`);
+        sinSelector.innerHTML = sourceContent;
     }
 
     wordDetailContent = wordDetailContent + `
@@ -177,20 +190,6 @@ function showWordDetail(datas) {
     let lessonContent = '<option value="">请选择课时</option>';
     let levelContent = '<option value="">请选择级别</option>';
 
-    getSourceList().then(
-        (sourceList) => {
-            console.log(sourceList);
-            let sourceContent = '<option value="">请选择资源</option>';
-            for (let item of sourceList) {
-                sourceContent = sourceContent + `\n<option value="${item.id}">${item.name}</option>`;
-            }
-
-            const sourceSelector = document.getElementById('source-in');
-            sourceSelector.innerHTML = sourceContent;
-        }
-    );
-    // const lessonList = getLessonList();
-    // const levelList = getLevelList();
 
     // for (let item of lessonList.datas) {
     //     lessonContent = lessonContent + `\n<option value="${item.lesson}">第${item.lesson}</option>`;

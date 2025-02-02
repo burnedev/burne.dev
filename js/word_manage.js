@@ -151,7 +151,14 @@ async function showWordDetail(datas) {
                 </div>
                 <div class="form-group">
                     <label class="word-detail-lab">单词来源:</label>
-                    <select id="source-in-${data.id}"><option value="${data.resource}">${sourceList.find(source => source.id === data.resource).name}</option></select>
+                    <select id="source-in-${data.id}">
+                        <option value="">请选择单词来源</option>
+                        ${sourceList.map(source => `
+                            <option value="${source.id}" ${source.id === data.resource ? 'selected' : ''}>
+                                ${source.name}
+                            </option>
+                        `).join('')}
+                    </select>
                 </div>
                 <div class="form-group">
                     <label class="word-detail-lab">课时:</label>

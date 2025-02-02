@@ -130,13 +130,7 @@ async function showWordDetail(datas) {
     // const levelList = getLevelList();
 
     for (let data of datas) {
-        let sourceContent = `<option value="">请选择单词来源</option>`;
-
-        for (let item of sourceList) {
-            sourceContent = sourceContent + `<option value=${item.id}>${item.name}</option>`;
-        }
-
-        wordDetailContent = wordDetailContent + `
+        container.innerHTML +=`
             <div class="word-detail-form">
                 <div class="form-group">
                     <label class="word-detail-lab">单词:</label>
@@ -173,8 +167,6 @@ async function showWordDetail(datas) {
                 </div>
             </div>
         `;
-
-        container.innerHTML += sourceContent;
 
         // const sinSelector = document.getElementById(`source-in-${data.id}`);
         // sinSelector.innerHTML += "<option value=''>请选择单词来源</option>";

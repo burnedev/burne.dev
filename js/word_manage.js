@@ -150,31 +150,31 @@ function showWordDetail(datas) {
         wordDetailContent = wordDetailContent + `
             <div class="word-detail-form">
                 <div class="form-group">
-                    <label class="word-detail-lab">单词</label>
+                    <label class="word-detail-lab">单词:</label>
                     <input id="word-in" value="${data.word}" />
                 </div> 
                 <div class="form-group">
-                    <label class="word-detail-lab">读音</label>
+                    <label class="word-detail-lab">读音:</label>
                     <input id="reading-in" value="${data.pronunciation}" />
                 </div>
                 <div class="form-group">
-                    <label class="word-detail-lab">单词来源</label>
+                    <label class="word-detail-lab">单词来源:</label>
                     <select id="source-in"></select>
                 </div>
                 <div class="form-group">
-                    <label class="word-detail-lab">课时</label>
+                    <label class="word-detail-lab">课时:</label>
                     <select id="lesson-in"></select>
                 </div>
                 <div class="form-group">
-                    <label class="word-detail-lab">中文意思</label>
+                    <label class="word-detail-lab">中文意思:</label>
                     <input id="zh-meaning-in" value="${data.zh_meaning}" />
                 </div>
                 <div class="form-group">
-                    <label class="word-detail-lab">英文意思</label>
+                    <label class="word-detail-lab">英文意思:</label>
                     <input id="en-meaning-in" value="${data.en_meaning}" />
                 </div>
                 <div class="form-group">
-                    <label class="word-detail-lab">等级</label>
+                    <label class="word-detail-lab">等级:</label>
                     <select id="level-in"></select>
                 </div>
                 <div id="is-main-container">
@@ -182,6 +182,7 @@ function showWordDetail(datas) {
                     <input type="checkbox" id="is-main" />
                 </div>
             </div>
+            <hr class="word-hr" />
         `;
     }
 

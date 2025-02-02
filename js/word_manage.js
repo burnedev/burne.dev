@@ -15,10 +15,14 @@ function showLoginForm() {
 
     container.innerHTML = `
         <div class="login-form">
+            <div class="form-group">
             <label class="manage-lab">username:</label>
             <input id="username-in" />
+            </div>
+            <div class="form-group">
             <label class="manage-lab">password:</label>
             <input id="password-in" type="password" />
+            </div>
             <button id="login-but">login</button>
         </div>
     `;
@@ -145,20 +149,35 @@ function showWordDetail(datas) {
     for (let data of datas) {
         wordDetailContent = wordDetailContent + `
             <div class="word-detail-form">
+                <div class="form-group">
                 <label class="word-detail-lab">单词</label>
                 <input id="word-in" value="${data.word}" />
+                </div> 
+                <div class="form-group">
                 <label class="word-detail-lab">读音</label>
                 <input id="reading-in" value="${data.pronunciation}" />
+                </div>
+                <div class="form-group">
                 <label class="word-detail-lab">单词来源</label>
                 <select id="source-in"></select>
+                </div>
+                <div class="form-group">
                 <label class="word-detail-lab">课时</label>
                 <select id="lesson-in"></select>
+                </div>
+                <div class="form-group">
                 <label class="word-detail-lab">中文意思</label>
                 <input id="zh-meaning-in" value="${data.zh_meaning}" />
+                </div>
+                <div class="form-group">
                 <label class="word-detail-lab">英文意思</label>
                 <input id="en-meaning-in" value="${data.en_meaning}" />
+                <div class="form-group">
+                </div>
+                <div class="form-group">
                 <label class="word-detail-lab">等级</label>
                 <select id="level-in"></select>
+                </div>
                 <div id="is-main-container">
                     <label class="word-detail-lab">是否是附加课程</label>
                     <input type="checkbox" id="is-main" />

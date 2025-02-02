@@ -8,11 +8,22 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 3px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.form-group input{
+    margin-left: 5px;
 }
 
 .word-detail-form {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-bottom: 5px;
 }
-

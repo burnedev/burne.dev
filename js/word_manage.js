@@ -123,8 +123,6 @@ async function showWordManageForm(ses) {
 async function showWordDetail(datas) {
     const container = document.getElementById('manage-setup');
 
-    let wordDetailContent = '';
-
     const sourceList = await getSourceList();
     // const lessonList = getLessonList();
     // const levelList = getLevelList();
@@ -175,7 +173,7 @@ async function showWordDetail(datas) {
         `;
     }
 
-    container.innerHTML += wordDetailContent + `
+    container.innerHTML += `
         <div class="button-container">
         <button id="save-word">保存</button>
         <button id="return-search-page">返回搜索页</button>

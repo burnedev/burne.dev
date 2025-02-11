@@ -1,21 +1,19 @@
 // 题型常量
 const QUESTION_TYPES = {
-    WORD_TO_MEANING: 'word_to_meaning',    // 单词选意思
-    WORD_TO_READING: 'word_to_reading',    // 单词选读音
-    MEANING_TO_WORD: 'meaning_to_word'     // 意思选单词
+    READING_TO_MEANING: 'reading_to_meaning',    // 读音选意思
+    READING_TO_WORD: 'reading_to_word'    // 读音选单词
 };
 
 // 添加题型提示语常量
 const QUESTION_HINTS = {
-    [QUESTION_TYPES.WORD_TO_MEANING]: '请选择正确的中文含义',
-    [QUESTION_TYPES.WORD_TO_READING]: '请选择正确的读音',
-    [QUESTION_TYPES.MEANING_TO_WORD]: '请选择对应的单词'
+    [QUESTION_TYPES.READING_TO_MEANING]: '请选择正确的中文含义',
+    [QUESTION_TYPES.READING_TO_WORD]: '请选择正确的单词'
 };
 
 let words = [];
 let currentWordIndex = 0;
 let currentWord = null;
-let currentQuestionType = QUESTION_TYPES.WORD_TO_MEANING;
+let currentQuestionType = QUESTION_TYPES.READING_TO_MEANING;
 let wordProgress = {};  // 记录每个单词在不同题型下的答题情况
 let password = ''; // 存储密码
 let baseUrl = 'https://jl.charlesyin20218621.workers.dev/words'
@@ -200,13 +198,26 @@ async function startLearning() {
         
         // 使用接口返回的数据
         words = data.datas;
-        console.log('获取到的单词数据:', words);
+
+        let new_words = words.map(word => {
+            let newWord = { ...word };
+            if (!newWord.reading && newWord.word) {
+                newWord.reading = newWord.word;
+                newWord.word = '';
+            }
+            return newWord;
+        })
+
+        console.log('赋值给words之前:', new_words);
+        words = structuredClone(new_words);
         
         // 初始化单词进度
         initWordProgress(words);
         
         // 随机排序单词
         shuffleArray(words);
+
+        console.log('初始化完成后: ', words);
         
         // 隐藏设置界面，显示练习界面
         document.getElementById('setup').style.display = 'none';
@@ -223,13 +234,19 @@ async function startLearning() {
 
 function initWordProgress(words) {
     console.log('初始化单词进度追踪');
+
     words.forEach(word => {
-        wordProgress[word.word] = {
-            [QUESTION_TYPES.WORD_TO_MEANING]: false,
-            [QUESTION_TYPES.WORD_TO_READING]: word.reading ? false : true,
-            [QUESTION_TYPES.MEANING_TO_WORD]: false
+        const tempWord = { ...word };
+
+        if (!tempWord.word) {
+            [tempWord.word, tempWord.reading] = [tempWord.reading, tempWord.word];
+        }
+
+        wordProgress[tempWord.word] = {
+            [QUESTION_TYPES.READING_TO_MEANING]: false,
+            [QUESTION_TYPES.READING_TO_WORD]: tempWord.reading ? false : true,
         };
-        console.log(`单词 ${word.word} 的初始进度:`, wordProgress[word.word]);
+        console.log(`单词 ${tempWord.word} 的初始进度:`, wordProgress[tempWord.word]);
     });
 }
 
@@ -242,11 +259,14 @@ function showNextWord() {
         return;
     }
 
-    if (currentWordIndex >= words.length) {
-        currentWordIndex = 0;
-    }
+    // if (currentWordIndex >= words.length) {
+    //     currentWordIndex = 0;
+    // }
 
     currentWord = words[currentWordIndex];
+    console.log('list before generate question: ', words);
+    console.log('index before generate question: ', currentWordIndex);
+
     const questionData = generateQuestion(words, currentWord);
     
     // 获取容器
@@ -302,23 +322,21 @@ function generateQuestion(words, currentWord) {
     const getWrongOptions = (words, correctAnswer, type) => {
         return words.filter(word => {
             switch(type) {
-                case QUESTION_TYPES.WORD_TO_MEANING:
+                case QUESTION_TYPES.READING_TO_MEANING:
                     return word.meaning !== correctAnswer;
-                case QUESTION_TYPES.WORD_TO_READING:
-                    return word.reading && word.reading !== correctAnswer;
-                case QUESTION_TYPES.MEANING_TO_WORD:
-                    return word.word !== correctAnswer;
+                case QUESTION_TYPES.READING_TO_WORD:
+                    return word.word && word.word !== correctAnswer;
             }
         });
     };
 
     switch(currentQuestionType) {
-        case QUESTION_TYPES.WORD_TO_MEANING:
-            console.log('生成单词选意思的题目');
-            question = currentWord.word;
+        case QUESTION_TYPES.READING_TO_MEANING:
+            console.log('生成读音选意思的题目');
+            question = currentWord.reading;
             correctAnswer = currentWord.meaning;
             // 获取所有可用的错误选项
-            const wrongMeanings = getWrongOptions(words, correctAnswer, QUESTION_TYPES.WORD_TO_MEANING)
+            const wrongMeanings = getWrongOptions(words, correctAnswer, QUESTION_TYPES.READING_TO_MEANING)
                 .map(word => word.meaning);
             // 随机选择3个不重复的错误选项
             while (options.length < 3 && wrongMeanings.length > 0) {
@@ -327,28 +345,16 @@ function generateQuestion(words, currentWord) {
             }
             break;
 
-        case QUESTION_TYPES.WORD_TO_READING:
-            console.log('生成单词选读音的题目');
-            if (!currentWord.reading) {
+        case QUESTION_TYPES.READING_TO_WORD:
+            console.log('生成读音选单词的题目');
+            if (!currentWord.word) {
                 console.log('当前单词没有读音，切换题型');
                 switchQuestionType();
                 return generateQuestion(words, currentWord);
             }
-            question = currentWord.word;
-            correctAnswer = currentWord.reading;
-            const wrongReadings = getWrongOptions(words, correctAnswer, QUESTION_TYPES.WORD_TO_READING)
-                .map(word => word.reading);
-            while (options.length < 3 && wrongReadings.length > 0) {
-                const randomIndex = Math.floor(Math.random() * wrongReadings.length);
-                options.push(wrongReadings.splice(randomIndex, 1)[0]);
-            }
-            break;
-
-        case QUESTION_TYPES.MEANING_TO_WORD:
-            console.log('生成意思选单词的题目');
-            question = currentWord.meaning;
+            question = currentWord.reading;
             correctAnswer = currentWord.word;
-            const wrongWords = getWrongOptions(words, correctAnswer, QUESTION_TYPES.MEANING_TO_WORD)
+            const wrongWords = getWrongOptions(words, correctAnswer, QUESTION_TYPES.READING_TO_WORD)
                 .map(word => word.word);
             while (options.length < 3 && wrongWords.length > 0) {
                 const randomIndex = Math.floor(Math.random() * wrongWords.length);
@@ -394,10 +400,17 @@ function checkAnswer(selectedOption, correctAnswer) {
     console.log('答案是否正确:', isCorrect);
 
     if (isCorrect) {
-        wordProgress[currentWord.word][currentQuestionType] = true;
-        console.log('更新后的单词进度:', wordProgress[currentWord.word]);
+
+        const tempWord = structuredClone(currentWord);
+
+        if (!tempWord.word) {
+            [tempWord.reading, tempWord.word] = [tempWord.word, tempWord.reading];
+        }
+
+        wordProgress[tempWord.word][currentQuestionType] = true;
+        console.log('更新后的单词进度:', wordProgress[tempWord.word]);
         
-        const allTypesCompleted = Object.values(wordProgress[currentWord.word]).every(v => v === true);
+        const allTypesCompleted = Object.values(wordProgress[tempWord.word]).every(v => v === true);
         console.log('是否完成所有题型:', allTypesCompleted);
 
         if (allTypesCompleted) {
@@ -417,10 +430,15 @@ function checkAnswer(selectedOption, correctAnswer) {
         }
     } else {
         console.log('答错了，重置进度并移到队列末尾');
-        resetWordProgress(currentWord.word);
+        const tempWord = structuredClone(currentWord);
+
+        if (!tempWord.word) {
+            [tempWord.reading, tempWord.word] = [tempWord.word, tempWord.reading];
+        }
+
+        resetWordProgress(tempWord.word);
         moveWordToEnd();
         setTimeout(() => {
-            currentWordIndex++;
             showNextWord();
         }, 1000);
     }
@@ -437,7 +455,7 @@ function switchQuestionType() {
     while (nextIndex !== currentIndex) {
         currentQuestionType = types[nextIndex];
         console.log('尝试切换到:', currentQuestionType);
-        if (currentQuestionType === QUESTION_TYPES.WORD_TO_READING && !currentWord.reading) {
+        if (currentQuestionType === QUESTION_TYPES.READING_TO_WORD && !currentWord.word) {
             console.log('当前单词没有读音，继续切换');
             nextIndex = (nextIndex + 1) % types.length;
         } else {
@@ -460,7 +478,7 @@ function showResult() {
         <div class="result">
             <h2>学习完成！</h2>
             <p>总单词数：${words.length}</p>
-            <button onclick="location.reload()">重新开始</button>
+            <button onclick="reshowSelectorPage()">重新开始</button>
         </div>
     `;
 }
@@ -473,7 +491,7 @@ function shuffleArray(array) {
     return array;
 }
 
-function handleDontKnow(correctAnswer) {
+function handleDontKnow() {
     console.log('\n=== 用户不认识该单词 ===');
     
     // 禁用所有按钮
@@ -488,6 +506,12 @@ function showWordDetails() {
     const practiceContainer = document.getElementById('practice');
     
     // 重置容器内容并添加详情视图
+    const showWord = structuredClone(currentWord);
+
+    if (! showWord) {
+        [showWord.word, showWord.reading] = [showWord.reading, showWord.word];
+    }
+
     practiceContainer.innerHTML = `
         <div class="word-card">
             <div class="word-details">
@@ -504,9 +528,8 @@ function showWordDetails() {
     // 绑定下一个按钮事件
     const nextButton = practiceContainer.querySelector('.next-button');
     nextButton.onclick = () => {
-        resetWordProgress(currentWord.word);
+        resetWordProgress(showWord.word);
         moveWordToEnd();
-        currentWordIndex++;
         showNextWord();
     };
 }
@@ -514,11 +537,23 @@ function showWordDetails() {
 // 新增：重置单词进度
 function resetWordProgress(word) {
     wordProgress[word] = {
-        [QUESTION_TYPES.WORD_TO_MEANING]: false,
-        [QUESTION_TYPES.WORD_TO_READING]: words.find(w => w.word === word).reading ? false : true,
-        [QUESTION_TYPES.MEANING_TO_WORD]: false
+        [QUESTION_TYPES.READING_TO_MEANING]: false,
+        [QUESTION_TYPES.READING_TO_WORD]: words.find(w => {
+            if (! w.word) {
+                console.log('resetWordProgress1: ', w);
+                console.log(word);
+                return w.reading === word;
+            } else {
+                console.log('resetWordProgress2: ', w);
+                console.log(word);
+                return w.word === word;
+            }
+        }).word ? false : true,
     };
     console.log(`重置单词 ${word} 的进度:`, wordProgress[word]);
+
+    console.log(`重置currentQuestionType: `);
+    currentQuestionType = QUESTION_TYPES.READING_TO_MEANING;
 }
 
 // 新增：将当前单词移到队列末尾
@@ -532,7 +567,11 @@ function moveWordToEnd() {
 // 新增：检查是否还有未掌握的单词
 function hasUnmasteredWords() {
     return words.some(word => {
-        const progress = wordProgress[word.word];
+        const tempWord = structuredClone(word);
+        if (! tempWord.word) {
+            [tempWord.word, tempWord.reading] = [tempWord.reading, tempWord.word];
+        }
+        const progress = wordProgress[tempWord.word];
         return !Object.values(progress).every(v => v === true);
     });
 }

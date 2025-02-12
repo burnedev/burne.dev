@@ -451,8 +451,12 @@ function switchQuestionType() {
         currentQuestionType = types[nextIndex];
         console.log('尝试切换到:', currentQuestionType);
         if (currentQuestionType === QUESTION_TYPES.READING_TO_WORD && !currentWord.word) {
-            console.log('当前单词没有读音，继续切换');
-            nextIndex = (nextIndex + 1) % types.length;
+            console.log('当前单词没有读音，切换到第1个类型');
+            // nextIndex = (nextIndex + 1) % types.length;
+
+            nextIndex = 0;
+            currentIndex = 0;
+            currentQuestionType = types[currentIndex];
         } else {
             break;
         }

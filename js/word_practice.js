@@ -492,11 +492,33 @@ function restart() {
 }
 
 function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
+    // for (let i = array.length - 1; i > 0; i--) {
+    //     const j = Math.floor(Math.random() * (i + 1));
+    //     [array[i], array[j]] = [array[j], array[i]];
+    // }
+    // return array;
+
+    // new shuffle algorithm
+    const shuffled = [...array];
+    let currentIdx = shuffled.length;
+
+    const randomSeed = crypto.getRandomValues(new Uint32Array(1))[0];
+
+    while (currentIdx > 0) {
+        const randomIdx = Math.floor(
+            (randomSeed * Math.random() * currentIdx) % currentIdx
+        );
+
+        currentIdx--;
+
+        [shuffled[currentIdx], shuffled[randomIdx]] = [shuffled[randomIdx], shuffled[currentIdx]];
     }
-    return array;
+
+    if (shuffled.length > 1 && shuffled[0] === array[0]) {
+        [shuffled[0], shuffled[1]] = [shuffled[1], shuffled[0]];
+    }
+
+    return shuffled;
 }
 
 function handleDontKnow() {

@@ -212,7 +212,7 @@ async function startLearning() {
         initWordProgress(words);
         
         // 随机排序单词
-        words = shuffleArray(words);
+        shuffleArray(words);
 
         console.log('初始化完成后: ', words);
         
@@ -364,7 +364,7 @@ function generateQuestion(words, currentWord) {
     }
 
     options.push(correctAnswer);
-    options = shuffleArray(options);
+    shuffleArray(options);
     console.log('生成的选项:', options);
     console.log('正确答案:', correctAnswer);
 
@@ -494,8 +494,8 @@ function shuffleArray(array) {
     // return array;
 
     // new shuffle algorithm
-    const shuffled = [...array];
-    let currentIdx = shuffled.length;
+    const firstBeforeChange = array[0];
+    let currentIdx = array.length;
 
     const randomSeed = crypto.getRandomValues(new Uint32Array(1))[0];
 
@@ -506,14 +506,14 @@ function shuffleArray(array) {
 
         currentIdx--;
 
-        [shuffled[currentIdx], shuffled[randomIdx]] = [shuffled[randomIdx], shuffled[currentIdx]];
+        [array[currentIdx], array[randomIdx]] = [array[randomIdx], array[currentIdx]];
     }
 
-    if (shuffled.length > 1 && shuffled[0] === array[0]) {
-        [shuffled[0], shuffled[1]] = [shuffled[1], shuffled[0]];
+    if (array.length > 1 && array[0] === firstBeforeChange) {
+        [array[0], array[1]] = [array[1], array[0]];
     }
 
-    return shuffled;
+    return array;
 }
 
 function handleDontKnow() {

@@ -212,7 +212,7 @@ async function startLearning() {
         initWordProgress(words);
         
         // 随机排序单词
-        shuffleArray(words);
+        words = shuffleArray(words);
 
         console.log('初始化完成后: ', words);
         
@@ -364,7 +364,7 @@ function generateQuestion(words, currentWord) {
     }
 
     options.push(correctAnswer);
-    shuffleArray(options);
+    options = shuffleArray(options);
     console.log('生成的选项:', options);
     console.log('正确答案:', correctAnswer);
 

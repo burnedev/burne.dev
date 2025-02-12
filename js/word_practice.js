@@ -72,7 +72,6 @@ function reshowSelectorPage() {
 
 async function showLevelSelect(password) {
     const levelSelector = document.getElementById('levelSelect');
-    console.log(levelSelector);
 
     levelSelector.addEventListener('change', function() {
         showLessonSelect(password);
@@ -118,7 +117,6 @@ async function showLevelSelect(password) {
 
 async function showLessonSelect(password) {
     const lessonSelector = document.getElementById('lessonSelect');
-    console.log(lessonSelector);
 
     const levelSelector = document.getElementById('levelSelect');
     const level = Number(levelSelector.value);
@@ -208,7 +206,6 @@ async function startLearning() {
             return newWord;
         })
 
-        console.log('赋值给words之前:', new_words);
         words = structuredClone(new_words);
         
         // 初始化单词进度
@@ -264,8 +261,6 @@ function showNextWord() {
     // }
 
     currentWord = words[currentWordIndex];
-    console.log('list before generate question: ', words);
-    console.log('index before generate question: ', currentWordIndex);
 
     const questionData = generateQuestion(words, currentWord);
     
@@ -570,12 +565,8 @@ function resetWordProgress(word) {
         [QUESTION_TYPES.READING_TO_MEANING]: false,
         [QUESTION_TYPES.READING_TO_WORD]: words.find(w => {
             if (! w.word) {
-                console.log('resetWordProgress1: ', w);
-                console.log(word);
                 return w.reading === word;
             } else {
-                console.log('resetWordProgress2: ', w);
-                console.log(word);
                 return w.word === word;
             }
         }).word ? false : true,

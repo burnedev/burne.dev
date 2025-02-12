@@ -478,9 +478,17 @@ function showResult() {
         <div class="result">
             <h2>学习完成！</h2>
             <p>总单词数：${words.length}</p>
-            <button onclick="reshowSelectorPage()">重新开始</button>
+            <button onclick="restart()">重新开始</button>
         </div>
     `;
+}
+
+function restart() {
+    document.getElementById('setup').style.display = 'block';
+    document.getElementById('practice').style.display = 'none';
+    reshowSelectorPage();
+    showLevelSelect(password);
+    showLessonSelect(password);
 }
 
 function shuffleArray(array) {

@@ -537,7 +537,7 @@ function showWordDetails() {
     // 重置容器内容并添加详情视图
     const showWord = structuredClone(currentWord);
 
-    if (! showWord) {
+    if (! showWord.word) {
         [showWord.word, showWord.reading] = [showWord.reading, showWord.word];
     }
 

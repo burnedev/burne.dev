@@ -444,7 +444,7 @@ function switchQuestionType() {
     console.log('当前题型:', currentQuestionType);
 
     const types = Object.values(QUESTION_TYPES);
-    const currentIndex = types.indexOf(currentQuestionType);
+    let currentIndex = types.indexOf(currentQuestionType);
     let nextIndex = (currentIndex + 1) % types.length;
     
     while (nextIndex !== currentIndex) {
@@ -537,9 +537,11 @@ function showWordDetails() {
     // 重置容器内容并添加详情视图
     const showWord = structuredClone(currentWord);
 
-    if (! showWord.word) {
+    console.log(showWord);
+    if (!showWord.word) {
         [showWord.word, showWord.reading] = [showWord.reading, showWord.word];
     }
+    console.log(showWord);
 
     practiceContainer.innerHTML = `
         <div class="word-card">

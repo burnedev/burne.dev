@@ -537,11 +537,9 @@ function showWordDetails() {
     // 重置容器内容并添加详情视图
     const showWord = structuredClone(currentWord);
 
-    console.log(showWord);
     if (!showWord.word) {
         [showWord.word, showWord.reading] = [showWord.reading, showWord.word];
     }
-    console.log(showWord);
 
     practiceContainer.innerHTML = `
         <div class="word-card">

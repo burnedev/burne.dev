@@ -13,10 +13,43 @@
     <body>
         <main>
             <h1>できる日本語単語帳</h1>
-            <ul>
-                <li><a>初級</a></li>
-                <li><a href="primary_middle_words.html">初中級</a></li>
+            <ul id="level-list-ul">
             </ul>
         </main>
     </body>
+
+    <script>
+        "use strict"
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const levelList = await getLevelList();
+            console.log(levelList);
+            const levelListUl = document.getElementById('level-list-ul');
+
+            const levelMap = {
+                1: "初級",
+                2: "初中級",
+                3: "中級"
+            }
+
+            for (let item of levelList.datas) {
+                levelListUl.innerHTML += `
+                <li><a id="level-${item.level}" value="${item.level}" href="words_level.html?level=${item.level}">${levelMap[item.level]}</a></li>
+                `;
+            }
+        })
+
+        async function getLevelList() {
+            const levelUrl = 'https://jl.charlesyin20218621.workers.dev/words/level';
+
+            try {
+                const response = await fetch(levelUrl);
+
+                return response.json();
+            } catch (error) {
+                console.log('get level failed: ', error);
+                alter(`get level failed: ${error}, please try again.`);
+            }
+        }
+    </script>
 </html>

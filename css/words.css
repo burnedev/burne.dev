@@ -1,0 +1,62 @@
+/* 表格整体样式 */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* 表头样式 */
+thead th {
+    background-color: #4a90e2;
+    color: #ffffff;
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 14px;
+}
+
+/* 表格内容单元格样式 */
+td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+}
+
+/* 单词列样式 */
+.word-w-td {
+    font-weight: 600;
+    color: #333;
+}
+
+/* 读音列样式 */
+.word-r-td {
+    color: #666;
+    font-style: italic;
+}
+
+/* 含义列样式 */
+.word-m-td {
+    color: #444;
+}
+
+/* 附加课程列样式 */
+.word-a-td {
+    color: #777;
+    text-align: center;
+}
+
+/* 表格行悬停效果 */
+.word-tr:hover {
+    background-color: #f5f8ff;
+    transition: background-color 0.3s ease;
+}
+
+/* 奇数行背景色 */
+.word-tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}

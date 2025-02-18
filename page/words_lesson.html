@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+        <link rel="icon" href="../resource/burne.ico">
+        <link rel="favicon" href="../resource/burne.ico">
+        <link rel="icon" type="image/png" href="../resource/burne.png">
+        <link rel="apple-touch-icon" href="../resource/burne.png">
+        <link rel="stylesheet" href="../css/main.css">
+        <link rel="stylesheet" href="../css/words.css">
+        <title>できる </title>
+    </head>
+    <body>
+        <main>
+            <h1>できる </h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col">word</th>
+                        <th scope="col">reading</th>
+                        <th scope="col">meaning</th>
+                        <th scope="col">main</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </main>
+    </body>
+    <script>
+        "use strict"
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            let resource = urlParams.get('res');
+            if (resource === null) {
+                resource = 1;
+            }
+
+            const level = urlParams.get('level');
+            const lesson = urlParams.get('lesson');
+
+            const levelMap = {
+                1: "初級",
+                2: "初中級",
+                3: "中級"
+            }
+
+            const title = document.getElementsByTagName('title');
+            title[0].innerHTML += `${levelMap[level]} 第${lesson}課`;
+
+            const h1 = document.getElementsByTagName('h1');
+            h1[0].innerHTML += `${levelMap[level]} 第${lesson}課`;
+
+            const words = await getWords(resource, level, lesson);
+            console.log(words);
+            const tb = document.getElementsByTagName('tbody')[0];
+
+            for (let item of words.datas) {
+                tb.innerHTML += `
+                    <tr class="word-tr">
+                        <td class="word-w-td">${item.word}</td>
+                        <td class="word-r-td">${item.pronunciation}</td>
+                        <td class="word-m-td">${item.zh_meaning}</td>
+                        <td class="word-a-td">${item.is_main ? "是" : "否"}</td>
+                    </tr>
+                `;
+            }
+        })
+
+        async function getWords(res, level, lesson) {
+            const wordUrl = `https://jl.charlesyin20218621.workers.dev/words/words?res=${res}&level=${level}&lesson=${lesson}`;
+
+            try {
+                const response = await fetch(wordUrl);
+
+                return response.json();
+            } catch (error) {
+                console.log('get words failed: ', error);
+                alert(`get lesson failed: ${error}, please try again.`);
+            }
+        }
+    </script>
+</html>

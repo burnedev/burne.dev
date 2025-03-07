@@ -238,12 +238,11 @@ async function showWordDetail(datas, word) {
     container.innerHTML += `
         <div class="button-container">
         <button id="save-word">保存</button>
-        <button id="return-search-page">返回搜索页</button>
+        <button id="return-search-page" onClick="showWordManageForm()">返回搜索页</button>
         </div>
     `;
 
     const saveButton = document.getElementById("save-word");
-    // const returnButton = document.getElementById("return-search-page");
     
     saveButton.addEventListener("click", async () =>{
             if (datas.length === 0) {

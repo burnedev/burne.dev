@@ -61,7 +61,7 @@ function reshowSelectorPage() {
             <label>选择课程：</label>
             <select id="lessonSelect"></select>
             <div id="isMainContainer">
-                <label>是否包含附加章节单词</label>
+                <label>包含附加章节单词</label>
                 <input type="checkbox" id="isMain"/>
             </div>
             <button onclick="startLearning()">开始学习</button>
@@ -161,10 +161,10 @@ async function startLearning() {
     const lessonSelect = document.getElementById('lessonSelect');
     const selectedLesson = lessonSelect.value;
     const mainSelect = document.getElementById('isMain');
-    let isMain = 0;
+    let isMain = 1;
 
     if (mainSelect.checked) {
-        isMain = 1;
+        isMain = 0;
     }
     
     if (!selectedLesson) {

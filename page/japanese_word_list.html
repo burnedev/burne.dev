@@ -38,9 +38,9 @@
                 if (item.level == 4) {
                     resource = 2;
                 }
-                
+
                 levelListUl.innerHTML += `
-                <li><a id="level-${item.level}" value="${item.level}" href="words_level.html?level=${item.level}&resource=${resource}">${levelMap[item.level]}</a></li>
+                <li><a id="level-${item.level}" value="${item.level}" href="words_level.html?level=${item.level}&res=${resource}">${levelMap[item.level]}</a></li>
                 `;
             }
         })

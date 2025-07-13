@@ -99,7 +99,8 @@ async function showLevelSelect(password) {
         levelMap = {
             1: '初级',
             2: '初中级',
-            3: '中级'
+            3: '中级',
+            4: '中上级'
         };
 
         let levelContent = '<option value="">请选择课程</option>';

@@ -46,7 +46,7 @@
             const title = document.getElementsByTagName('title');
             title[0].innerHTML += `${levelMap[level]}`;
 
-            const h1 = document.getElementsByTagName('h1');
+            const h2 = document.getElementsByTagName('h2');
             h2.innerHTML = `${levelMap[level]}`;
 
             const lessonList = await getLesson(resource, level);

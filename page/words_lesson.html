@@ -47,6 +47,10 @@
                 4: '中上級'
             }
 
+            if (resource == 2) {
+                h1[0].innerHTML = '学ぼう '
+            }
+
             const title = document.getElementsByTagName('title');
             title[0].innerHTML += `${levelMap[level]} 第${lesson}課`;
 

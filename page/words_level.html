@@ -13,6 +13,7 @@
     <body>
         <main>
             <h1 id="book-name">できる日本語単語帳</h1>
+            <h2 id="level"></h2>
             <ul id="lesson-list-ul">
             </ul>
         </main>
@@ -46,7 +47,7 @@
             title[0].innerHTML += `${levelMap[level]}`;
 
             const h1 = document.getElementsByTagName('h1');
-            h1[0].innerHTML += `${levelMap[level]}`;
+            h2.innerHTML = `${levelMap[level]}`;
 
             const lessonList = await getLesson(resource, level);
             console.log(lessonList);

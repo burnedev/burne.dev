@@ -13,7 +13,7 @@
     </head>
     <body>
         <main>
-            <h1>できる </h1>
+            <h1 id="book-name">できる </h1>
             <table>
                 <thead>
                     <tr>
@@ -48,7 +48,8 @@
             }
 
             if (resource == 2) {
-                h1[0].innerHTML = '学ぼう '
+                const bookname = document.getElementById('book-name');
+                bookname.innerHTML = '学ぼう ';
             }
 
             const title = document.getElementsByTagName('title');

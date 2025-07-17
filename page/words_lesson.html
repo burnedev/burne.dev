@@ -9,7 +9,7 @@
         <link rel="apple-touch-icon" href="../resource/burne.png">
         <link rel="stylesheet" href="../css/main.css">
         <link rel="stylesheet" href="../css/words.css">
-        <title>できる </title>
+        <title id="title">できる </title>
     </head>
     <body>
         <main>
@@ -50,6 +50,9 @@
             if (resource == 2) {
                 const bookname = document.getElementById('book-name');
                 bookname.innerHTML = '学ぼう ';
+
+                const title = document.getElementById('title');
+                title.innerHTML = '学ぼう ';
             }
 
             const title = document.getElementsByTagName('title');

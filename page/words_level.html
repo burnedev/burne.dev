@@ -29,6 +29,12 @@
                 resource = 1;
             }
 
+            let lang = urlParams.get('lang');
+            if (lang === null) {
+                lang = 'zh-cn';
+            }
+            
+
             if (resource == 2) {
                 const bookname = document.getElementById('book-name');
                 bookname.innerHTML = '学ぼう!にほんご単語帳'
@@ -55,7 +61,7 @@
 
             for (let item of lessonList.datas) {
                 lessonListUl.innerHTML += `
-                <li><a id="lesson-${item.lesson}" value="${item.lesson}" href="words_lesson.html?res=${resource}&level=${level}&lesson=${item.lesson}">第${item.lesson}課</a></li>
+                <li><a id="lesson-${item.lesson}" value="${item.lesson}" href="words_lesson.html?res=${resource}&level=${level}&lesson=${item.lesson}&lang=${lang}">第${item.lesson}課</a></li>
                 `;
             }
         })

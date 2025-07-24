@@ -16,11 +16,10 @@
             <h1 id="book-name">できる </h1>
             <table>
                 <thead>
-                    <tr>
+                    <tr id="tr">
                         <th scope="col">word</th>
                         <th scope="col">reading</th>
                         <th scope="col">meaning</th>
-                        <th scope="col">main</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -37,8 +36,18 @@
                 resource = 1;
             }
 
+            if (resource == 1) {
+                const tr = document.getElementById('tr');
+                tr.innerHTML += '<th scope="col">main</th>';
+            }
+
             const level = urlParams.get('level');
             const lesson = urlParams.get('lesson');
+            let lang = urlParams.get('lang');
+
+            if (lang === null) {
+                lang = 'zh-cn';
+            }
 
             const levelMap = {
                 1: "初級",
@@ -66,12 +75,17 @@
             const tb = document.getElementsByTagName('tbody')[0];
 
             for (let item of words.datas) {
+                let mainfield = '<td class="word-a-td">${item.is_main ? "是" : "否"}</td>';
+                if (resource == 2) {
+                    mainfield = '';
+                }
                 tb.innerHTML += `
                     <tr class="word-tr">
                         <td class="word-w-td">${item.word}</td>
                         <td class="word-r-td">${item.pronunciation ? item.pronunciation : ""}</td>
-                        <td class="word-m-td" lang="zh">${item.zh_meaning}</td>
-                        <td class="word-a-td">${item.is_main ? "是" : "否"}</td>
+                        <td class="word-m-td" lang=${lang === 'en' ? 'eng' : 'zh'}>${lang === 'en' ? item.en_meaning : item.zh_meaning}</td>
+                        ${mainfield}
+                        
                     </tr>
                 `;
             }
